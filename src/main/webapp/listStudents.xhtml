@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>list-students</title>
+</h:head>
+
+<h:body>
+    <h:outputLabel value="List students ..."/>
+    <h:form id="formid">
+        <p:panelGrid columns="1">
+            <p:dataTable var="student" value="#{listStudentsMbean.students}" selectionMode="single"
+                         selection="#{listStudentsMbean.selectedStudent}" rowKey="#{student.number}">
+
+                <p:ajax event="rowSelect" update="formid:studentDetail" />
+
+                <p:column headerText="number">
+                    <h:outputText value="#{student.number}" />
+                </p:column>
+                <p:column headerText="firstname">
+                    <h:outputText value="#{student.firstname}" />
+                </p:column>
+
+            </p:dataTable>
+
+            <p:panelGrid id="studentDetail" columns="1">
+                <p:panel rendered="#{listStudentsMbean.selectedStudent != null }">
+                    <p:outputLabel value="#{listStudentsMbean.selectedStudent.firstname} #{listStudentsMbean.selectedStudent.lastname}" />
+                </p:panel>
+            </p:panelGrid>
+        </p:panelGrid>
+    </h:form>
+
+</h:body>
+</html>
