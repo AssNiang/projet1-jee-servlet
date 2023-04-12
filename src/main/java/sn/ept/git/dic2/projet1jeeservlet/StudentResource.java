@@ -1,5 +1,10 @@
 package sn.ept.git.dic2.projet1jeeservlet;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -46,6 +51,41 @@ public class StudentResource {
     @DELETE
     @Path("{number}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Operation(
+            summary = "Delete a student",
+            description = "Delete the student whose id match the given one as parameter",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "The student with the specified id is not found",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON,
+                                            examples = {
+                                                    @ExampleObject(
+                                                            name = "Student not found",
+                                                            value = "{msg: The student whose id is dic2_44 is not found.}"
+                                                    )
+                                            }
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "The student with the specified id is successfully deleted"
+                    )
+            }
+    )
+//    @ApiResponses({
+//            @ApiResponse(
+//                    responseCode = "404",
+//                    description = "The student with the specified id is not found"
+//            ),
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "The student with the specified id is successfully deleted"
+//            )
+//    })
     public Response delete(@PathParam("number") String number) {
         Student s = studentFacade.find(number);
         if(s == null) {
